@@ -318,6 +318,7 @@ curl -A "Mozilla/5.0" -L "<hero-image-url>" -o assets/<brand>-brand/product-hero
 | Emoji 作图标 | 训练语料里每个 bullet 都配 emoji，是"不够专业就用 emoji 凑"的病 | 品牌本身用（如 Notion），或产品受众是儿童/轻松场景 |
 | 圆角卡片 + 左彩色 border accent | 2020-2024 Material/Tailwind 时期的烂大街组合，已成视觉噪音 | 用户明确要求、或这个组合在品牌 spec 里被保留 |
 | SVG 画 imagery（人脸/场景/物品）| AI 画的 SVG 人物永远五官错位，比例诡异 | **几乎没有**——有图就用真图（Wikimedia/Unsplash/AI 生成），没图就留诚实 placeholder |
+| **CSS 剪影/SVG 手画代替真实产品图** | 生成的就是「通用科技动画」——黑底+橙 accent+圆角长条，任何实体产品都长一样，品牌识别度归零（DJI Pocket 4 实测 2026-04-20）| **几乎没有**——先走核心资产协议找真实产品图；真没有时用 nano-banana-pro 以官方参考图为基底生成；实在不行标诚实 placeholder 告诉用户"产品图待补" |
 | Inter/Roboto/Arial/system fonts 作 display | 太常见，读者看不出这是"有设计的产品"还是"demo 页" | 品牌 spec 明确用这些字体（Stripe 用 Sohne/Inter 变体，但是经过微调的） |
 | 赛博霓虹 / 深蓝底 `#0D1117` | GitHub dark mode 美学的烂大街复制 | 开发者工具产品且品牌本身走这方向 |
 
@@ -573,11 +574,15 @@ Screen 组件接 callback props（`onEnter`、`onClose`、`onTabChange`、`onOpe
 
 ### 标准流程（用TaskCreate追踪）
 
-1. **理解需求**：新任务或模糊任务必须问clarifying questions，详见 `references/workflow.md`。一次focused一轮问题通常够，小修小补跳过。
-   🛑 **检查点1：问题清单一次性发给用户，等用户批量答完再往下走**。不要边问边做。
-   🛑 **幻灯片/PPT 任务额外必问「最终交付格式」**（浏览器演讲 / PDF / 可编辑 PPTX）——**要可编辑 PPTX 就必须从第一行 HTML 开始按 `references/editable-pptx.md` 的 4 条硬约束写**，事后补救会导致 2-3 小时返工。详见 `references/slide-decks.md` 开头「开工前先确认交付格式」一节。
-   ⚡ **如果用户需求严重模糊（没参考、没明确风格、"做个好看的"类）→ 走「设计方向顾问（Fallback 模式）」大节，完成 Phase 1-4 选定方向后，再回到这里 Step 2**。
-2. **探索资源 + 抽 spec**：读 design system、linked files、上传的截图/代码。**涉及具体品牌时必走 §1.a 五步协议**（问→搜→下载→grep→写 `brand-spec.md`）。如果用户没给 context 且挖不出资产，先走设计方向顾问 Fallback，再按 `references/design-context.md` 的品位锚点兜底。
+1. **理解需求**：
+   - 🔍 **0. 事实验证（涉及具体产品/技术时必做，优先级最高）**：任务涉及具体产品/技术/事件（DJI Pocket 4、Gemini 3 Pro、Nano Banana Pro、某新 SDK 等）时，**第一个动作**是 `WebSearch` 验证其存在性、发布状态、最新版本、关键规格。把事实写入 `product-facts.md`。详见「核心原则 #0」。**这步做在问 clarifying questions 之前**——事实错了问什么都歪。
+   - 新任务或模糊任务必须问clarifying questions，详见 `references/workflow.md`。一次focused一轮问题通常够，小修小补跳过。
+   - 🛑 **检查点1：问题清单一次性发给用户，等用户批量答完再往下走**。不要边问边做。
+   - 🛑 **幻灯片/PPT 任务额外必问「最终交付格式」**（浏览器演讲 / PDF / 可编辑 PPTX）——**要可编辑 PPTX 就必须从第一行 HTML 开始按 `references/editable-pptx.md` 的 4 条硬约束写**，事后补救会导致 2-3 小时返工。详见 `references/slide-decks.md` 开头「开工前先确认交付格式」一节。
+   - ⚡ **如果用户需求严重模糊（没参考、没明确风格、"做个好看的"类）→ 走「设计方向顾问（Fallback 模式）」大节，完成 Phase 1-4 选定方向后，再回到这里 Step 2**。
+2. **探索资源 + 抽核心资产**（不只是抽色值）：读 design system、linked files、上传的截图/代码。**涉及具体品牌时必走 §1.a「核心资产协议」五步**（问→按类型搜→按类型下载 logo/产品图/UI→验证+提取→写 `brand-spec.md` 含所有资产路径）。
+   - 🛑 **检查点2·资产自检**：开工前确认核心资产到位——实体产品要有产品图（不是 CSS 剪影）、数字产品要有 logo+UI 截图、色值从真实 HTML/SVG 抽取。缺了就停下补，不硬做。
+   - 如果用户没给 context 且挖不出资产，先走设计方向顾问 Fallback，再按 `references/design-context.md` 的品位锚点兜底。
 3. **先答四问，再规划系统**：**这一步的前半段比所有 CSS 规则更决定输出**。
 
    📐 **位置四问**（每个页面/屏幕/镜头开工前必答）：
