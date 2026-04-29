@@ -54,6 +54,10 @@ This rule has higher priority than asking clarifying questions. Questions only h
 
 This principle is the prerequisite for the Core Asset Protocol: first confirm what the product is, then gather its logo, product imagery, UI screenshots, and colors.
 
+## POV-First Gate
+
+Before Step 1 of any design task, write **one sentence** stating the design's point of view: "This {deliverable} is for {audience}, so it {primary design move}, not {anti-pattern}." Example: *"This pricing page is for skeptical CFOs, so it leads with numbers, not vibes."* The POV is **binding** — refuse subsequent decisions that do not serve it. If you cannot write the POV, you do not yet understand the task; return to clarification. Full handling (POV vs brand voice, conflict resolution, examples per archetype): `references/pov-gate.md`.
+
 ## Core Philosophy
 
 ### 1. Start From Existing Context
@@ -189,6 +193,10 @@ The full table, "What To Do Instead" rules, and "Isolate Bad Examples" guidance 
 5. **Inter / Roboto / Arial / system as display type** — too generic for designed work; pair distinctive display + body.
 
 The main exception is brand truth: if the brand spec uses a pattern, it is not slop, it is a signature.
+
+#### 6.3 Named Allowlist (Use Specific, Not Vague)
+
+A blocklist alone leaves the agent guessing what to use. After committing to an archetype (Editorial / Startup / Technical / Code / Industrial-Brutalist / Eastern Minimal / Playful), use the **named allowlist** in `references/named-allowlist.md`: specific fonts, color directions, layout grids, and motion easings per archetype, with license tags flagged. Do not invent. If the §1.a brand spec specifies an asset that disagrees with the allowlist, the brand spec wins.
 
 ## Design Direction Advisor (Fallback Mode)
 
@@ -347,32 +355,26 @@ Exceptions: user explicitly asks for a different device, Android, or a custom de
    - Visual temperature: quiet / excited / calm / authoritative / gentle / sad?
    - Capacity estimate: sketch three 5-second thumbnails to see if content fits.
    - Then vocalize the design system: colors, type, layout rhythm, component pattern.
-   - **Checkpoint 2**: state the four answers and system aloud, then wait for approval.
+   - **Checkpoint 3**: state the four answers and system aloud, then wait for approval.
 4. **Create folder structure**
    - Put the main HTML and needed assets under the project folder. Do not bulk-copy more than about 20 files.
 5. **Junior pass**
    - Write assumptions, placeholders, and reasoning comments in HTML.
-   - **Checkpoint 3**: show the user early, even if it is gray boxes and labels.
+   - **Checkpoint 4**: show the user early, even if it is gray boxes and labels.
 6. **Full pass**
    - Fill placeholders, build variations, add Tweaks. Show progress halfway through.
-7. **Verify**
-   - Use Playwright screenshots; see `references/verification.md`.
-   - Check console errors.
-   - **Checkpoint 4**: inspect the browser yourself before delivery.
+7. **Verify (mandatory before delivery)**
+   - Run `scripts/verify.py <deliverable>` (or equivalent Playwright capture) and **look at the screenshot**. Name 3 specific things you see that match or violate `brand-spec.md` (or, if no brand exists, the POV from §POV-First Gate). Check console errors. See `references/verification.md`.
+   - **Soft fallback** (host without Playwright/Python): prompt the user to "open the file and paste a screenshot back" — proceed only after they actually attach an image you can describe, not on a bare "ok." The point of the gate is that *you have looked at pixels*; bypassing that defeats the gate.
+   - **Checkpoint 5**: inspect the browser yourself before delivery.
 8. **Summarize**
    - Keep it minimal: caveats and next steps.
-9. **Default video export includes SFX + BGM**
-   - Animation HTML defaults to MP4 with audio, not silent video.
-   - `scripts/render-video.js` records 25fps visual MP4.
-   - `scripts/convert-formats.sh` derives 60fps MP4 and palette-optimized GIF.
-   - `scripts/add-music.sh` adds BGM.
-   - Design SFX cue lists with `references/audio-design-rules.md` and `assets/sfx/<category>/*.mp3`.
-   - BGM and SFX are both required unless the user explicitly asks for silent/picture-only/self-narrated output.
-   - Verify audio with `ffprobe -select_streams a`.
-10. **Optional expert review**
-    - If the user asks for review/critique/scoring, use `references/critique-guide.md`.
-    - Score philosophical coherence, visual hierarchy, craft detail, functionality, and innovation out of 10.
-    - Output overall judgment + Keep + Fix + Quick Wins. Critique the design, not the designer.
+9. **Animation export defaults to dual-track audio (BGM + SFX)**
+   - Pipeline: `scripts/render-video.js` (25fps MP4) → `scripts/convert-formats.sh` (60fps + palette GIF) → `scripts/add-music.sh` (BGM mix). SFX cue list per `references/audio-design-rules.md` + `assets/sfx/<category>/*.mp3`. Both layers required unless the user opts out. Verify with `ffprobe -select_streams a`.
+10. **Self-critique (mandatory final pass)**
+    - Score 0-40 against the 5-axis rubric in `references/self-critique-rubric.md` (philosophy / hierarchy / craft / function / originality, each 0-10). If `<30`, regenerate **once** targeting the lowest-scoring axis, then re-score. After the second pass: ship if ≥30; ship with a `Quality flag: <X/40> — <weak axes>` annotation if 20-29; **stop and ask the user** if 0-19 (the brief is likely mis-scoped). **Cap at one regeneration.** Uncapped self-critique loops are forbidden — they regress to the mean.
+11. **Optional expert review for the user**
+    - If the user asks you to critique their own or someone else's design, use `references/critique-guide.md`. Output Keep / Fix / Quick Wins. Critique the design, not the designer.
 
 **Checkpoint rule**: when you hit a checkpoint, stop and tell the user what you did and what you plan next. Then actually wait.
 
@@ -439,6 +441,8 @@ Full inventory + usage pattern (read → inline → slot) + App/iOS prototype sk
 
 | Task | Read |
 |---|---|
+| POV-First Gate (full handling, conflict resolution, examples) | `references/pov-gate.md` |
+| Self-critique 5-axis rubric (pre-delivery scoring) | `references/self-critique-rubric.md` |
 | Core Asset Protocol execution detail | `references/asset-protocol.md` |
 | Design Direction Advisor 8-phase flow | `references/design-direction-advisor.md` + `references/design-styles.md` |
 | Starter components inventory + App-prototype skeletons | `references/starter-components.md` |
@@ -446,6 +450,7 @@ Full inventory + usage pattern (read → inline → slot) + App/iOS prototype sk
 | Scripts (export pipeline, verify, html2pptx) | `scripts/README.md` |
 | Questions and direction-setting | `references/workflow.md` |
 | Anti-AI-slop, content standards, scale | `references/content-guidelines.md` |
+| Named allowlist by archetype (fonts, colors, grids) | `references/named-allowlist.md` |
 | React+Babel setup | `references/react-setup.md` |
 | Slide decks | `references/slide-decks.md` + `assets/deck_stage.js` |
 | Editable PPTX export | `references/editable-pptx.md` + `scripts/html2pptx.js` |
