@@ -1,11 +1,11 @@
-<sub><b>🌐 English</b> · <a href="README.md">中文</a></sub>
+<sub><b>Language:</b> English</sub>
 
 <div align="center">
 
 # Huashu Design
 
 > *"Type. Hit enter. A finished design lands in your lap."*
-> *「打字。回车。一份能交付的设计。」*
+> *"Type. Hit enter. A finished design lands in your lap."*
 
 [![License](https://img.shields.io/badge/License-Personal%20Use%20Only-orange.svg)](LICENSE)
 [![Agent-Agnostic](https://img.shields.io/badge/Agent-Agnostic-blueviolet)](https://skills.sh)
@@ -301,10 +301,10 @@ Huasheng is an AI-native coder, independent developer, and AI content creator. N
 | Platform | Handle | Link |
 |---|---|---|
 | X / Twitter | @AlchainHust | https://x.com/AlchainHust |
-| WeChat Official Account | 花叔 | Search "花叔" in WeChat |
-| Bilibili | 花叔 | https://space.bilibili.com/14097567 |
-| YouTube | 花叔 | https://www.youtube.com/@Alchain |
-| Xiaohongshu | 花叔 | https://www.xiaohongshu.com/user/profile/5abc6f17e8ac2b109179dfdf |
+| WeChat Official Account | Huashu | Search "Huashu" in WeChat |
+| Bilibili | Huashu | https://space.bilibili.com/14097567 |
+| YouTube | Huashu | https://www.youtube.com/@Alchain |
+| Xiaohongshu | Huashu | https://www.xiaohongshu.com/user/profile/5abc6f17e8ac2b109179dfdf |
 | Official Site | huasheng.ai | https://www.huasheng.ai/ |
 | Developer Hub | bookai.top | https://bookai.top |
 
