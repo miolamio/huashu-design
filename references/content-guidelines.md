@@ -1,196 +1,208 @@
-# Content Guidelines：反AI slop、内容准则、Scale规范
+# Content Guidelines: Anti-AI Slop, Content Rules, Scale Specs
 
-AI设计里最容易掉进去的陷阱。这是一份「不做什么」的清单，比「做什么」更重要——因为AI slop是默认值，你不主动避免就会发生。
+These are the easiest traps to fall into in AI design. This is a list of "what not to do", which is more important than "what to do", because AI slop is the default. If you do not actively avoid it, it will happen.
 
-## AI Slop 完整黑名单
+## Complete AI Slop Blacklist
 
-### 视觉陷阱
+### Visual Traps
 
-**❌ 激进渐变背景**
-- 紫色 → 粉色 → 蓝色 全屏渐变（AI生成网页的典型味道）
-- 任何方向的rainbow gradient
-- Mesh gradient铺满背景
-- ✅ 如果要用渐变：subtle、单色系、有意图地点缀（比如button hover）
+**Bad: Aggressive Gradient Backgrounds**
+- Purple -> pink -> blue full-screen gradients (the typical smell of AI-generated websites)
+- Rainbow gradients in any direction
+- Mesh gradients covering the whole background
+- Good: if you use gradients, keep them subtle, within a single hue family, and intentionally placed as accents (for example button hover)
 
-**❌ 圆角卡片 + 左border accent色**
+**Bad: Rounded Cards + Left Border Accent Color**
 ```css
-/* 这是AI味卡片的典型签名 */
+/* This is the classic signature of an AI-flavored card */
 .card {
   border-radius: 12px;
   border-left: 4px solid #3b82f6;
   padding: 16px;
 }
 ```
-这种卡片在AI生成的Dashboard里泛滥。想做强调？用更有设计感的方式：背景色对比、字重/字号对比、plain分隔线、或者干脆不分卡片。
 
-**❌ Emoji 装饰**
-除非品牌本身使用emoji（比如Notion、Slack），否则不要在UI上放emoji。**尤其不要**：
-- 标题前的 🚀 ⚡️ ✨ 🎯 💡
-- Feature列表的 ✅
-- CTA按钮里的 →（箭头单独出现OK，emoji箭头不行）
+These cards are everywhere in AI-generated dashboards. Want emphasis? Use something with more design intent: background color contrast, weight/size contrast, plain separators, or no card at all.
 
-没图标用真icon库（Lucide/Heroicons/Phosphor），或者用placeholder。
+**Bad: Emoji Decoration**
 
-**❌ SVG 画 imagery**
-不要试图用SVG画：人物、场景、设备、物品、抽象艺术。AI画的SVG imagery一眼就是AI味，幼稚且廉价。**一个灰色矩形+"插画位 1200×800"的文字标签，比一个拙劣的SVG hero illustration强100倍**。
+Unless the brand itself uses emoji (for example Notion or Slack), do not put emoji in the UI. **Especially avoid**:
+- Icons before headings such as rocket, lightning, sparkle, target, lightbulb
+- Checkmarks in feature lists
+- Arrows inside CTA buttons (a standalone arrow is OK; an emoji arrow is not)
 
-唯一可以用SVG的场景：
-- 真正的icon（16×16到32×32级别）
-- 几何图形做装饰元素
-- Data viz的chart
+If you lack icons, use a real icon library (Lucide/Heroicons/Phosphor) or a placeholder.
 
-**❌ 过多iconography**
-不是每个标题/feature/section都需要icon。滥用icon会让界面像toy。Less is more。
+**Bad: SVG-Drawn Imagery**
 
-**❌ "Data slop"**
-编造的stats装饰：
-- "10,000+ happy customers" （你都不知道有没有）
-- "99.9% uptime" （没有真数据就别写）
-- 用图标+数字+词组成的装饰"metric cards"
-- Mock table里的假数据装点得花里胡哨
+Do not try to draw people, scenes, devices, objects, or abstract art with SVG. AI-drawn SVG imagery instantly reads as AI: childish and cheap. **A gray rectangle labeled "Illustration placeholder 1200x800" is 100 times better than a poor SVG hero illustration**.
 
-如果没真数据，留placeholder或问用户要。
+The only acceptable SVG use cases:
+- Real icons (16x16 to 32x32 scale)
+- Geometric decorative elements
+- Charts for data visualization
 
-**❌ "Quote slop"**
-编造的用户评价、名人名言装饰页面。留placeholder问用户要真quote。
+**Bad: Too Much Iconography**
 
-### 字体陷阱
+Not every heading/feature/section needs an icon. Overusing icons makes the interface feel like a toy. Less is more.
 
-**❌ 避免这些烂大街字体**：
-- Inter（AI生成的网页默认）
+**Bad: "Data Slop"**
+
+Fabricated decorative stats:
+- "10,000+ happy customers" (you do not know whether this is true)
+- "99.9% uptime" (do not write it without real data)
+- Decorative "metric cards" made from icon + number + label
+- Fake data in mock tables dressed up too heavily
+
+If there is no real data, leave a placeholder or ask the user for it.
+
+**Bad: "Quote Slop"**
+
+Fabricated user reviews or famous quotes as page decoration. Leave a placeholder and ask the user for real quotes.
+
+### Typography Traps
+
+**Avoid these overused fonts**:
+- Inter (the default AI-generated web font)
 - Roboto
 - Arial / Helvetica
-- 纯system font stack
-- Fraunces（AI发现了这个就用滥了）
-- Space Grotesk（最近AI的最爱）
+- Pure system font stack
+- Fraunces (AI discovered it and overused it)
+- Space Grotesk (a recent AI favorite)
 
-**✅ 用有特点的display+body配对**。灵感方向：
-- 衬线display + 无衬线body（editorial feel）
-- Mono display + sans body（technical feel）
-- Heavy display + light body（contrast）
-- Variable font做hero的粗细动画
+**Use distinctive display + body pairings instead**. Directional ideas:
+- Serif display + sans body (editorial feel)
+- Mono display + sans body (technical feel)
+- Heavy display + light body (contrast)
+- Variable font for hero weight animation
 
-字体资源：
-- Google Fonts的冷门好选项（Instrument Serif、Cormorant、Bricolage Grotesque、JetBrains Mono）
-- 开源字体站（Fraunces的兄弟字体、Adobe Fonts）
-- 不要凭空发明字体名
+Font resources:
+- Less common good options from Google Fonts (Instrument Serif, Cormorant, Bricolage Grotesque, JetBrains Mono)
+- Open-source font sites (Fraunces sibling fonts, Adobe Fonts)
+- Do not invent font names out of thin air
 
-### 色彩陷阱
+### Color Traps
 
-**❌ 凭空发明颜色**
-不要从头设计一整套不熟悉的色彩。这通常不和谐。
+**Bad: Inventing Colors From Scratch**
 
-**✅ 策略**：
-1. 有品牌色 → 用品牌色，缺的color token用oklch插值
-2. 没有品牌色但有参考 → 从参考产品截图吸色
-3. 完全从零 → 选一个known的配色系统（Radix Colors / Tailwind默认palette / Anthropic brand），不要自己调
+Do not design an unfamiliar full color system from scratch. It usually will not harmonize.
 
-**oklch定义色彩**是最现代的做法：
+**Good strategy**:
+1. Brand color exists -> use the brand color, and fill missing color tokens with oklch interpolation.
+2. No brand color but references exist -> sample colors from reference product screenshots.
+3. Completely from zero -> choose a known color system (Radix Colors / Tailwind default palette / Anthropic brand), do not tune your own from scratch.
+
+**Defining colors with oklch** is the most modern approach:
 ```css
 :root {
-  --primary: oklch(0.65 0.18 25);      /* 温暖的terracotta */
-  --primary-light: oklch(0.85 0.08 25); /* 同色系浅色 */
-  --primary-dark: oklch(0.45 0.20 25);  /* 同色系深色 */
+  --primary: oklch(0.65 0.18 25);      /* warm terracotta */
+  --primary-light: oklch(0.85 0.08 25); /* light shade in the same hue family */
+  --primary-dark: oklch(0.45 0.20 25);  /* dark shade in the same hue family */
 }
 ```
-oklch能保证调整亮度时色相不漂移，比hsl好用。
 
-**❌ 夜间模式随手加反色**
-不是简单invert颜色。好的dark mode需要重新调整饱和度、对比度、accent色。不想做dark mode就别做。
+oklch keeps hue stable when adjusting lightness and is more useful than hsl.
 
-### Layout陷阱
+**Bad: Casual Inverted Dark Mode**
 
-**❌ Bento grid 过度泛滥**
-每个AI生成的landing page都想搞bento。除非你的信息structure确实适合bento，否则用其他layout。
+Dark mode is not simple color inversion. Good dark mode requires reworking saturation, contrast, and accent colors. If you do not want to design dark mode, do not add it.
 
-**❌ 大hero + 3-column features + testimonials + CTA**
-这个landing page模板被用烂了。想创新就真创新。
+### Layout Traps
 
-**❌ Card grid里每个card长一样**
-Asymmetric、不同大小的cards、有的带image有的只有文字、有的跨列——这才像真设计师做的。
+**Bad: Overused Bento Grid**
 
-## 内容准则
+Every AI-generated landing page wants to use bento. Unless your information structure truly fits bento, use a different layout.
 
-### 1. Don't add filler content
+**Bad: Large Hero + 3-Column Features + Testimonials + CTA**
 
-每个元素都必须earn its place。空白是设计问题，用**构图**解决（对比、节奏、留白），**不是**靠内容填满。
+This landing page template is exhausted. If you want innovation, actually innovate.
 
-**判断filler的问题**：
-- 如果去掉这段内容，设计会变差吗？答案若是"不会"，就去掉。
-- 这个元素解决了什么真问题？如果是"让页面不那么空"，删掉。
-- 这个stats/quote/feature有真数据支持吗？没有就不要凭空写。
+**Bad: Every Card in a Card Grid Has the Same Size**
 
-「One thousand no's for every yes」。
+Asymmetry, different card sizes, some with images and some only with text, some spanning columns: that is what real designer work feels like.
 
-### 2. Ask before adding material
+## Content Rules
 
-你觉得多加一段/一页/一个section会更好？先问用户，不要单方面加。
+### 1. Don't Add Filler Content
 
-原因：
-- 用户知道他的受众比你清楚
-- 加内容有成本，用户可能不想要
-- 单方面加内容违反了"junior designer汇报工作"的关系
+Every element must earn its place. Empty space is a design problem solved through **composition** (contrast, rhythm, whitespace), **not** by filling it with content.
 
-### 3. Create a system up front
+**Questions for judging filler**:
+- If this content is removed, does the design get worse? If the answer is "no", remove it.
+- What real problem does this element solve? If the answer is "it makes the page less empty", delete it.
+- Does this stat/quote/feature have real data behind it? If not, do not invent it.
 
-探索完design context后，**先口头说出你要用的系统**，让用户确认：
+"One thousand no's for every yes."
+
+### 2. Ask Before Adding Material
+
+Do you think adding another paragraph/page/section would make it better? Ask the user first; do not add it unilaterally.
+
+Reasons:
+- The user understands their audience better than you do.
+- Adding content has cost, and the user may not want it.
+- Unilaterally adding content violates the "junior designer reporting work" relationship.
+
+### 3. Create a System Up Front
+
+After exploring the design context, **state the system you plan to use out loud** and ask the user to confirm:
 
 ```markdown
-我的设计系统：
-- 色彩：#1A1A1A主体 + #F0EEE6背景 + #D97757 accent（来自你的品牌）
-- 字型：Instrument Serif做display + Geist Sans做body
-- 节奏：section title用full-bleed彩色背景 + 白字；普通section用白背景
-- 图像：hero用full-bleed照片，feature section用placeholder等你提供
-- 最多用2种背景色，避免杂乱
+My design system:
+- Colors: #1A1A1A main + #F0EEE6 background + #D97757 accent (from your brand)
+- Typography: Instrument Serif for display + Geist Sans for body
+- Rhythm: section titles use full-bleed colored backgrounds + white text; regular sections use white backgrounds
+- Imagery: hero uses a full-bleed photo; feature sections use placeholders until you provide assets
+- Use at most 2 background colors to avoid clutter
 
-确认这个方向我就开始做。
+If you confirm this direction, I will start building.
 ```
 
-用户确认后再动手。这个check-in能避免"做完一半发现方向错"。
+Only start after the user confirms. This check-in prevents "getting halfway done and discovering the direction is wrong."
 
-## Scale 规范
+## Scale Specs
 
-### 幻灯片（1920×1080）
+### Slides (1920x1080)
 
-- 正文最小 **24px**，理想 28-36px
-- 标题 60-120px
-- Section title 80-160px
-- Hero headline 可以用 180-240px 的大字
-- 永远不要用 <24px 的字放幻灯片
+- Body text minimum **24px**, ideal 28-36px
+- Headings 60-120px
+- Section titles 80-160px
+- Hero headlines can use very large type at 180-240px
+- Never use text smaller than 24px on slides
 
-### 印刷文档
+### Printed Documents
 
-- 正文最小 **10pt**（≈13.3px），理想 11-12pt
-- 标题 18-36pt
+- Body text minimum **10pt** (about 13.3px), ideal 11-12pt
+- Headings 18-36pt
 - Caption 8-9pt
 
-### Web和移动端
+### Web and Mobile
 
-- 正文最小 **14px**（老年人友好用16px）
-- 移动端正文 **16px**（避免iOS自动缩放）
-- Hit target（可点击元素）最小 **44×44px**
-- 行高 1.5-1.7（中文1.7-1.8）
+- Body text minimum **14px** (use 16px for older-adult-friendly experiences)
+- Mobile body text **16px** (prevents iOS auto-zoom)
+- Hit target (clickable elements) minimum **44x44px**
+- Line height 1.5-1.7 (Chinese 1.7-1.8)
 
-### 对比度
+### Contrast
 
-- 正文 vs 背景 **至少 4.5:1**（WCAG AA）
-- 大字 vs 背景 **至少 3:1**
-- 用Chrome DevTools的accessibility工具检查
+- Body text vs background **at least 4.5:1** (WCAG AA)
+- Large text vs background **at least 3:1**
+- Check with Chrome DevTools accessibility tools
 
-## CSS 神器
+## CSS Superpowers
 
-**高级CSS特性**是设计师的好朋友，大胆用：
+**Advanced CSS features** are a designer's friend. Use them boldly:
 
-### 排版
+### Typography
 
 ```css
-/* 让标题换行更自然，不会最后一行孤单单一个词 */
+/* Makes heading line breaks more natural, avoiding a lonely last word */
 h1, h2, h3 { text-wrap: balance; }
 
-/* 正文换行，避免寡孀和孤儿 */
+/* Body copy wrapping, reducing widows and orphans */
 p { text-wrap: pretty; }
 
-/* 中文排版神器：标点挤压、行首行尾控制 */
+/* Powerful Chinese typography: punctuation spacing compression and line-edge control */
 p { 
   text-spacing-trim: space-all;
   hanging-punctuation: first;
@@ -200,7 +212,7 @@ p {
 ### Layout
 
 ```css
-/* CSS Grid + named areas = 可读性爆表 */
+/* CSS Grid + named areas = extremely readable */
 .layout {
   display: grid;
   grid-template-areas:
@@ -211,50 +223,50 @@ p {
   grid-template-rows: auto 1fr auto;
 }
 
-/* Subgrid对齐卡片内容 */
+/* Subgrid aligns card content */
 .card { display: grid; grid-template-rows: subgrid; }
 ```
 
-### 视觉效果
+### Visual Effects
 
 ```css
-/* 有设计感的滚动条 */
+/* Scrollbar with design intent */
 * { scrollbar-width: thin; scrollbar-color: #666 transparent; }
 
-/* 玻璃拟态（克制使用） */
+/* Glassmorphism (use with restraint) */
 .glass {
   backdrop-filter: blur(20px) saturate(150%);
   background: color-mix(in oklch, white 70%, transparent);
 }
 
-/* View transitions API让页面切换丝滑 */
+/* View Transitions API makes page transitions smooth */
 @view-transition { navigation: auto; }
 ```
 
-### 交互
+### Interaction
 
 ```css
-/* :has()选择器让条件样式变容易 */
-.card:has(img) { padding-top: 0; } /* 有图片的卡片无顶padding */
+/* The :has() selector makes conditional styling easier */
+.card:has(img) { padding-top: 0; } /* cards with images have no top padding */
 
-/* container queries让组件真的响应式 */
+/* Container queries make components truly responsive */
 @container (min-width: 500px) { ... }
 
-/* 新的color-mix函数 */
+/* New color-mix function */
 .button:hover {
   background: color-mix(in oklch, var(--primary) 85%, black);
 }
 ```
 
-## 决策速查：当你犹豫时
+## Decision Cheatsheet: When You Hesitate
 
-- 想加个渐变？→ 大概率不加
-- 想加个emoji？→ 不加
-- 想给卡片加圆角+border-left accent？→ 不加，换其他方式
-- 想用SVG画个hero插画？→ 不画，用placeholder
-- 想加一段quote装饰？→ 先问用户有没有真quote
-- 想加一排icon features？→ 先问要不要icon，可能不需要
-- 用Inter？→ 换一个更有特点的
-- 用紫色渐变？→ 换一个有根据的配色
+- Want to add a gradient? -> Usually do not.
+- Want to add an emoji? -> Do not.
+- Want to add rounded corners + border-left accent to a card? -> Do not; use another method.
+- Want to draw a hero illustration with SVG? -> Do not draw it; use a placeholder.
+- Want to add a decorative quote? -> First ask whether the user has a real quote.
+- Want to add a row of icon features? -> First ask whether icons are needed; they may not be.
+- Using Inter? -> Switch to something more distinctive.
+- Using a purple gradient? -> Switch to a color system with a reason.
 
-**当你觉得"加一下会更好看"的时候——那通常是AI slop的征兆**。先做最简的版本，只在用户要求时加。
+**When you think "adding this would make it prettier", that is usually a sign of AI slop**. Start with the simplest version, and only add when the user asks.
