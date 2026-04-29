@@ -19,6 +19,26 @@ Slide decks are a frequent design task. This document explains how to make stron
 
 ---
 
+## Contents
+
+- [🛑 Confirm the Delivery Format Before Starting](#-confirm-the-delivery-format-before-starting-hardest-checkpoint) — HTML-first decision tree, PPTX 4-constraints rationale, mixed delivery, emergency recovery
+- [🛑 Before Batch Production: 2-Page Showcase](#-before-batch-production-make-a-2-page-showcase-to-set-the-grammar) — set grammar before producing N slides
+- [📐 Publication Grammar Template](#-publication-grammar-template-reusable-from-moxt-field-test) — per-slide skeleton, style conventions, visual-lead variation
+- [⚠️ Common Pitfalls (moxt Field Notes)](#️-common-pitfalls-moxt-field-notes) — emoji, Playwright, fonts, density
+- [🛑 Set the Architecture First: Single File or Multi-File?](#-set-the-architecture-first-single-file-or-multi-file) — decision tree, incident record
+- [Path A (Default): Multi-File Architecture](#path-a-default-multi-file-architecture) — directory, template, aggregator, single-slide verification, parallel dev, shared tokens
+- [Path B (Small Deck): Single File + deck_stage.js](#path-b-small-deck-single-file--deck_stagejs) — basic usage, 🛑 script-position constraint, CSS trap, starter CSS, custom size
+- [Slide Labels](#slide-labels)
+- [Speaker Notes](#speaker-notes) — format + writing guidelines
+- [Slide Design Patterns](#slide-design-patterns) — establish a system, common layouts, scale, visual rhythm, breathing space
+- [Print to PDF](#print-to-pdf)
+- [Export to PPTX / PDF (Self-Serve Scripts)](#export-to-pptx--pdf-self-serve-scripts) — `export_deck_pdf.mjs`, `export_deck_stage_pdf.mjs`, `export_deck_pptx.mjs`, format-choice guidance
+- [Deep Path for Exporting Editable PPTX](#deep-path-for-exporting-editable-pptx-long-term-projects-only) — long-term-only
+- [FAQ](#faq)
+- [Validation Checklist](#validation-checklist-required-after-finishing-a-deck) — required after every deck
+
+---
+
 ## 🛑 Confirm the Delivery Format Before Starting (Hardest Checkpoint)
 
 **This decision comes before "single file or multiple files."** 2026-04-20 options private-board project field test: **failing to confirm delivery format before implementation caused 2-3 hours of rework.**

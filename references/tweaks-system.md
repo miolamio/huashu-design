@@ -4,6 +4,17 @@ Tweaks are a core capability in this skill: they let users switch variations and
 
 **Cross-agent environment adaptation**: some native design-agent environments (such as Claude.ai Artifacts) rely on the host's postMessage to write tweak values back into source code for persistence. This skill uses a **pure frontend localStorage approach** instead. The effect is the same (state persists after refresh), but persistence happens in browser localStorage rather than in source files. This approach works in any agent environment (Claude Code / Codex / Cursor / Trae / etc.).
 
+## Contents
+
+- [When to Add Tweaks](#when-to-add-tweaks)
+- [Implementation (Pure Frontend Version)](#implementation-pure-frontend-version) — basic structure, Tweaks Panel UI, applying tweaks
+- [Typical Tweak Options](#typical-tweak-options) — general, slide deck, product prototype, animation, landing page
+- [Tweaks Design Principles](#tweaks-design-principles) — meaningful options, less-is-more, defaults are complete, group sensibly
+- [Forward Compatibility with Source-Level Persistence Hosts](#forward-compatibility-with-source-level-persistence-hosts)
+- [FAQ](#faq)
+
+---
+
 ## When to Add Tweaks
 
 - The user explicitly asks for "adjustable parameters" or "multiple version switching"

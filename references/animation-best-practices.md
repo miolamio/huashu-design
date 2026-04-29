@@ -12,6 +12,22 @@
 
 ---
 
+## Contents
+
+- [§0 · Who You Are · Identity and Taste](#0--who-you-are--identity-and-taste) — identity anchor, core beliefs, taste standard, first-audience self-check, identity-vs-rules
+- [Overview · Animation as Physics Unfolding in Three Layers](#overview--animation-as-physics-unfolding-in-three-layers)
+- [1. Narrative Rhythm · 5-part Slow-Fast-Boom-Stop Structure](#1-narrative-rhythm--5-part-slow-fast-boom-stop-structure)
+- [2. Easing Philosophy · Reject Linear, Embrace Physics](#2-easing-philosophy--reject-linear-embrace-physics) — three core easings (built into animations.jsx), usage mapping
+- [3. Motion Language · 8 Shared Principles](#3-motion-language--8-shared-principles) — backgrounds, easing, narrative, process-not-magic, hand-drawn cursor paths, logo morph, serif+sans pairing, focus shift
+- [4. Concrete Motion Techniques (Copy-ready Snippets)](#4-concrete-motion-techniques-copy-ready-snippets) — FLIP, breathing, staggered fade-up, hover-before-key-result, chunk reveal, anticipation/follow-through, 3D layering, diagonal pan
+- [5. Scene Recipes (Three Narrative Templates)](#5-scene-recipes-three-narrative-templates) — Apple Keynote drama, one-take tool flow, office efficiency narrative
+- [6. Counterexamples · This Is AI Slop](#6-counterexamples--this-is-ai-slop)
+- [7. Self-check Checklist (60 Seconds Before Animation Delivery)](#7-self-check-checklist-60-seconds-before-animation-delivery)
+- [8. Relationship to Other References](#8-relationship-to-other-references)
+- [Appendix · Source Material for This File](#appendix--source-material-for-this-file)
+
+---
+
 ## §0 · Who You Are · Identity and Taste
 
 > Read this section before any technical rule below. Rules **emerge from identity**,

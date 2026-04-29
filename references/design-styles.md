@@ -3,6 +3,18 @@
 > A design style library for visual design work, including websites, PPT, PDF, infographics, illustrations, apps, and similar outputs.
 > Each style provides: philosophical core + key traits + prompt DNA, to be combined with scene templates.
 
+## Contents
+
+- [Style × Scene × Execution Path Quick Reference](#style-x-scene-x-execution-path-quick-reference) — 20-style-by-7-scenario routing matrix
+- [1. Information Architecture School (01-04)](#1-information-architecture-school-01-04) — Pentagram, Stamen, iA, Fathom
+- [2. Motion Poetics School (05-08)](#2-motion-poetics-school-05-08) — Locomotive, Active Theory, Field.io, Resn
+- [3. Minimalist School (09-12)](#3-minimalist-school-09-12) — Experimental Jetset, Müller-Brockmann, Build, Sagmeister & Walsh
+- [4. Experimental Vanguard (13-16)](#4-experimental-vanguard-13-16) — Zach Lieberman, Raven Kwok, Ash Thorp, Territory Studio
+- [5. Eastern Philosophy School (17-20)](#5-eastern-philosophy-school-17-20) — Takram, Kenya Hara, Irma Boom, Neo Shen
+- [Prompt Usage Guide](#prompt-usage-guide) — mood-not-layout principle, good/bad examples, execution path choice, quality control
+
+---
+
 ## Style x Scene x Execution Path Quick Reference
 
 | Style | Web | PPT | PDF | Infographic | Cover | AI Generation | Best Path |

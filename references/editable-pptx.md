@@ -8,6 +8,19 @@ This document covers the path for **using `scripts/html2pptx.js` + `pptxgenjs` t
 
 ---
 
+## Contents
+
+- [Canvas Size: Use 960×540pt (`LAYOUT_WIDE`)](#canvas-size-use-960540pt-layout_wide) — three candidate sizes, three equivalent ways to write body size
+- [Four Hard Constraints (Violations Fail Directly)](#four-hard-constraints-violations-fail-directly) — text in `<p>`/`<h*>`, solid colors only, backgrounds on DIVs, `<img>` tags only
+- [Path A HTML Template Skeleton](#path-a-html-template-skeleton)
+- [Common Error Lookup](#common-error-lookup)
+- [Basic Workflow (PPTX in 3 Steps)](#basic-workflow-pptx-in-3-steps) — independent HTML per page, `build.js`, open and check
+- [This Path vs. Other Options (What to Choose When)](#this-path-vs-other-options-what-to-choose-when)
+- [Fallback: Visual Draft Exists, but User Insists on Editable PPTX](#fallback-a-visual-draft-already-exists-but-the-user-insists-on-editable-pptx) — explain limits, AI rewrites proactively, comparison checklist, deliver both formats, when to refuse
+- [Why the Four Constraints Are Physical Constraints, Not Bugs](#why-the-four-constraints-are-physical-constraints-not-bugs)
+
+---
+
 ## Canvas Size: Use 960×540pt (`LAYOUT_WIDE`)
 
 PPTX units are **inches** (physical size), not px. Decision principle: the body's computedStyle size must **match the presentation layout's inch size** (±0.1", enforced by `html2pptx.js` through `validateDimensions`).

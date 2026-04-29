@@ -1,4 +1,31 @@
 /**
+ * ============================================================================
+ * CANONICAL Stage / Sprite ENGINE — runtime contract for video export
+ * ============================================================================
+ *
+ * This file IS the canonical Stage/Sprite engine. Use it as-is whenever
+ * possible. If you hand-write your own Stage/Sprite instead of using
+ * `assets/animations.jsx`, you MUST implement BOTH of the following rules,
+ * verbatim from SKILL.md:
+ *
+ *   1. Set `window.__ready = true` on first tick (after first paint).
+ *   2. Force `loop = false` when `window.__recording === true`.
+ *
+ * Consumer: `scripts/render-video.js` depends on these flags. Without
+ * `window.__ready`, the recorder cannot detect "animation has started" and
+ * will leave 1-2s of black frames at the head of the MP4. Without the
+ * `__recording` loop-disable, the recorder will capture multiple loops and
+ * produce a duplicated/seam-filled output.
+ *
+ * Full context lives in `references/animation-pitfalls.md`:
+ *   - Item 12: "__ready × tick × lastTick triple trap"
+ *   - Item 13: "Disable loop During Recording — the window.__recording signal"
+ *
+ * Note: SKILL.md and animation-pitfalls.md may drift over time. The binding
+ * contract is THIS comment plus the actual implementation below — those two
+ * are the source of truth.
+ * ============================================================================
+ *
  * animations.jsx — timeline animation engine
  *
  * Stage + Sprite model, inspired by Remotion but lighter.

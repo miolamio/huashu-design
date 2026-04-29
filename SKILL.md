@@ -1,6 +1,6 @@
 ---
 name: huashu-design
-description: Huashu-Design is an integrated design skill for creating high-fidelity prototypes, interactive demos, slide decks, animations, design-variation explorations, design-direction recommendations, and expert reviews with HTML. HTML is the tool, not the medium: embody the right expert for the task (UX designer, animator, slide designer, prototyper) and avoid generic web-design tropes. Triggers include prototype, design demo, interactive prototype, HTML demo, animation demo, design variations, hi-fi design, UI mockup, prototype, design exploration, HTML page, visualization, app prototype, iOS prototype, mobile app mockup, export MP4, export GIF, 60fps video, design style, design direction, design philosophy, color palette, visual style, recommend a style, choose a style, make it look good, critique, does this look good, review this design. Core capabilities: Junior Designer workflow (show assumptions + reasoning + placeholders before iterating), anti-AI-slop checklist, React+Babel best practices, Tweaks variation switching, speaker notes, starter components (deck shell, variation canvas, animation engine, device frames), app-prototype rules (default to real images from Wikimedia/Met/Unsplash, wrap each iPhone in an interactive AppPhone state manager, run Playwright click tests before delivery), Playwright validation, HTML animation to MP4/GIF export (25fps base + 60fps interpolation + palette-optimized GIF + six contextual BGM tracks + automatic fade). Fallback for vague requests: Design Direction Advisor mode, recommending three differentiated directions from five schools and twenty design philosophies (Pentagram information architecture, Field.io motion poetics, Kenya Hara Eastern minimalism, Sagmeister experimental avant-garde, etc.), showing 24 prebuilt showcases (8 scenarios × 3 styles), and generating three visual demos in parallel for the user to choose from. Optional after delivery: expert five-axis review (philosophical coherence / visual hierarchy / craft detail / functionality / innovation, each scored out of 10 plus a repair checklist).
+description: Create high-fidelity HTML design deliverables — interactive prototypes, slide decks, animations, variations, direction recommendations, and expert reviews. Use when the user wants visual design work in HTML: app/iOS prototype, mobile mockup, slide deck, motion design, MP4/GIF export, hi-fi design, style/direction recommendation, palette, critique. Embodies the right expert per task (UX designer, animator, slide designer, prototyper) and avoids generic AI-design tropes via Core Asset Protocol (logo + product image + UI screenshot, not just colors), Junior Designer workflow with assumptions/placeholders, anti-slop checklist, and Design Direction Advisor fallback for vague briefs (20 design philosophies × 24 prebuilt showcases). Includes starter components (deck shell, variation canvas, animation engine, device frames) and export pipeline (PDF, editable PPTX, MP4 with BGM+SFX, GIF). Not for production web apps or SEO sites — use frontend-design instead.
 ---
 
 # Huashu-Design
@@ -39,13 +39,7 @@ Do not use it for production web apps, SEO websites, or backend-dependent dynami
 3. Write the facts into `product-facts.md` for the project.
 4. If results are unclear, ask the user instead of inventing assumptions.
 
-**Real failure case from 2026-04-20**:
-
-- User: "Make a launch animation for DJI Pocket 4."
-- I said from memory: "Pocket 4 has not shipped yet; we can make a concept demo."
-- Reality: Pocket 4 had launched four days earlier, on 2026-04-16, with official launch film and product renders.
-- Result: I made a concept silhouette animation based on a wrong premise and had to redo 1-2 hours of work.
-- Cost: 10 seconds of search is cheaper than two hours of rework.
+**Real failure case from 2026-04-20**: a DJI Pocket 4 launch animation was built from memory ("not shipped yet, do a concept demo") when in fact the product had launched 4 days earlier — 1-2 hours of rework. **10 seconds of search is cheaper than two hours of rework.**
 
 This rule has higher priority than asking clarifying questions. Questions only help after facts are correct.
 
@@ -74,7 +68,7 @@ If there is still no context, or the user request is vague ("make something nice
 >
 > v1.1 refactor, 2026-04-20: the old "brand asset protocol" became the **Core Asset Protocol**. The earlier version over-focused on colors and fonts and missed the most basic design assets: logo, product imagery, and UI screenshots.
 
-**Trigger**: any task involving a specific brand, product, company, or client, such as Stripe, Linear, Anthropic, Notion, Lovart, DJI, or the user's own company.
+**Trigger**: any task involving a specific brand, product, company, or client (Stripe, Linear, Anthropic, Notion, Lovart, DJI, or the user's own company).
 
 **Prerequisite**: Core Principle #0 has already confirmed the brand/product exists and its status is known.
 
@@ -99,81 +93,15 @@ Execution rules:
 
 #### Five Required Steps
 
-##### Step 1 · Ask For The Full Asset List
+1. **Ask** — request the full asset list from the user item-by-item: logo, product photos, UI screenshots, colors, fonts, brand guidelines.
+2. **Search** — official channels by asset type (brand site / press kit, App Store screenshots, inline CSS for colors).
+3. **Download** — use fallback paths per asset type. Logo: official SVG → inline SVG → social avatar. Product: official → press kit → launch-video frames → Wikimedia → AI generation from official reference. UI: app store → website → demo frames → user account.
+4. **Verify and extract** — confirm resolution, rights, multi-version availability; extract palette via grep.
+5. **Freeze** — write `brand-spec.md` with all assets + use cases + no-go zones. Subsequent HTML references real file paths from this spec.
 
-Do not merely ask "Do you have brand guidelines?" Ask item by item:
+See `references/asset-protocol.md` for the full execution detail (prompt templates, search-paths table, curl commands, `brand-spec.md` template).
 
-```text
-For <brand/product>, do you have any of the following? Listed by priority:
-1. Logo (SVG / high-res PNG) — required for any brand
-2. Product photos / official renders — required for physical products
-3. UI screenshots / interface assets — required for digital products
-4. Color values (HEX / RGB / brand palette)
-5. Font list (display / body)
-6. Brand guidelines PDF / Figma design system / brand website link
-
-Send what you have. I will search, capture, or generate what is missing.
-```
-
-##### Step 2 · Search Official Channels By Asset Type
-
-| Asset | Search Path |
-|---|---|
-| **Logo** | `<brand>.com/brand`, `<brand>.com/press`, `<brand>.com/press-kit`, `brand.<brand>.com`, inline SVG in the homepage header |
-| **Product photo / render** | Product page hero image and gallery, official launch film frames, official press images |
-| **UI screenshot** | App Store / Google Play screenshots, website screenshots section, official demo video frames |
-| **Colors** | Inline CSS, Tailwind config, brand guidelines PDF |
-| **Fonts** | `<link rel="stylesheet">`, Google Fonts traces, brand guidelines |
-
-Fallback `WebSearch` keywords:
-
-- Logo: `<brand> logo download SVG`, `<brand> press kit`
-- Product image: `<brand> <product> official renders`, `<brand> <product> product photography`
-- UI: `<brand> app screenshots`, `<brand> dashboard UI`
-
-##### Step 3 · Download Assets With Fallback Paths
-
-**3.1 Logo, required for any brand**
-
-1. Prefer standalone SVG/PNG files:
-
-   ```bash
-   curl -o assets/<brand>-brand/logo.svg https://<brand>.com/logo.svg
-   curl -o assets/<brand>-brand/logo-white.svg https://<brand>.com/logo-white.svg
-   ```
-
-2. Extract inline SVG from official HTML:
-
-   ```bash
-   curl -A "Mozilla/5.0" -L https://<brand>.com -o assets/<brand>-brand/homepage.html
-   # Then grep/extract the <svg>...</svg> logo node.
-   ```
-
-3. Last resort: official social avatar from GitHub, X/Twitter, or LinkedIn.
-
-**3.2 Product photos / renders, required for physical products**
-
-Priority order:
-
-1. Official product-page hero image, usually 2000px+.
-2. Official press kit.
-3. Official launch video frames via `yt-dlp` + `ffmpeg`.
-4. Wikimedia Commons.
-5. AI generation fallback using nano-banana-pro with the real product image as reference. Do not hand-draw with CSS/SVG.
-
-```bash
-curl -A "Mozilla/5.0" -L "<hero-image-url>" -o assets/<brand>-brand/product-hero.png
-```
-
-**3.3 UI screenshots, required for digital products**
-
-- App Store / Google Play product screenshots. Verify they are real UI, not only marketing mockups.
-- Website screenshots section.
-- Product demo video frames.
-- Official X/Twitter launch screenshots.
-- If the user has an account, ask for a real product screenshot.
-
-**3.4 Asset Quality Gate: 5-10-2-8**
+#### Asset Quality Gate: 5-10-2-8
 
 Logo rules are different: if the official logo exists, use it; if it does not, stop and ask. Other assets must pass the 5-10-2-8 gate:
 
@@ -184,89 +112,9 @@ Logo rules are different: if the official logo exists, use it; if it does not, s
 | **Choose 2 strong assets** | Pick the best 2 final assets | Use everything and dilute taste |
 | **Each at least 8/10** | If below 8/10, use honest placeholder or AI generation from official reference | Include mediocre 7/10 assets |
 
-Record each score in `brand-spec.md`:
+Score each candidate in `brand-spec.md` against 5 dimensions: resolution (≥2000px), rights clarity, brand fit, lighting/composition consistency, narrative independence. Full criteria in `references/asset-protocol.md` §Step 3.4.
 
-1. **Resolution**: at least 2000px; print/large-screen work prefers 3000px+.
-2. **Rights clarity**: official source > public domain > free stock > suspicious scrape; suspicious sources score 0.
-3. **Brand fit**: aligned with the brand-spec tone keywords.
-4. **Lighting/composition/style consistency**: selected assets should work together.
-5. **Narrative independence**: each asset can carry a narrative role, not just decoration.
-
-The philosophy is **quality over quantity**. Every visual element adds or subtracts points from the work.
-
-##### Step 4 · Verify And Extract
-
-| Asset | Verification |
-|---|---|
-| **Logo** | File exists, opens, has dark/light variants when possible, transparent background |
-| **Product image** | At least one 2000px+ image, clean or transparent background, multiple angles if possible |
-| **UI screenshot** | Real resolution, current version, no private user data |
-| **Colors** | `grep -hoE '#[0-9A-Fa-f]{6}' assets/<brand>-brand/*.{svg,html,css} | sort | uniq -c | sort -rn | head -20`, then filter black/white/gray |
-
-Beware demo-brand contamination: product screenshots may include a customer's brand colors. Those are not the product's colors.
-
-Brands also have multiple valid faces. A marketing site and product UI may use different palettes. Choose the face that matches the deliverable.
-
-##### Step 5 · Freeze Assets In `brand-spec.md`
-
-```markdown
-# <Brand> · Brand Spec
-> Collected: YYYY-MM-DD
-> Sources: <download/source list>
-> Completeness: <complete / partial / inferred>
-
-## Core Assets
-
-### Logo
-- Main: `assets/<brand>-brand/logo.svg`
-- Light-background inverse: `assets/<brand>-brand/logo-white.svg`
-- Use cases: <intro/outro/corner watermark/global>
-- Do not: <stretch/recolor/add outline>
-
-### Product Images (required for physical products)
-- Hero: `assets/<brand>-brand/product-hero.png` (2000×1500)
-- Details: `assets/<brand>-brand/product-detail-1.png`, `product-detail-2.png`
-- Scene: `assets/<brand>-brand/product-scene.png`
-- Use cases: <close-up/rotation/comparison>
-
-### UI Screenshots (required for digital products)
-- Home: `assets/<brand>-brand/ui-home.png`
-- Core feature: `assets/<brand>-brand/ui-feature-<name>.png`
-- Use cases: <product reveal/dashboard fade-in/comparison>
-
-## Supporting Assets
-
-### Palette
-- Primary: #XXXXXX <source>
-- Background: #XXXXXX
-- Ink: #XXXXXX
-- Accent: #XXXXXX
-- Banned colors: <colors the brand clearly does not use>
-
-### Type
-- Display: <font stack>
-- Body: <font stack>
-- Mono, for data/HUD: <font stack>
-
-### Signature Details
-- <details worth executing at 120%>
-
-### No-go Zone
-- <explicitly forbidden choices>
-
-### Tone Keywords
-- <3-5 adjectives>
-```
-
-After writing the spec:
-
-- All HTML must reference real asset file paths from `brand-spec.md`.
-- Use the logo as an `<img>`, not a redraw.
-- Use product images as `<img>`, not CSS silhouettes.
-- Inject colors as CSS variables: `:root { --brand-primary: ...; }`.
-- If a new color is needed, update the spec first.
-
-##### If The Protocol Fails
+#### If The Protocol Fails
 
 | Missing | Response |
 |---|---|
@@ -277,7 +125,7 @@ After writing the spec:
 
 Do not silently use CSS silhouettes or generic gradients when assets are missing.
 
-##### Failure Cases To Remember
+#### Failure Cases To Remember
 
 - Kimi animation: guessed orange from memory; actual Kimi color was `#1783FF`.
 - Lovart design: mistook a demo customer's red for Lovart's own brand color.
@@ -330,33 +178,17 @@ The reasoning:
 
 The Core Asset Protocol is the positive way to avoid slop. This checklist is the negative way: avoid known traps.
 
-#### 6.2 What To Avoid
+#### 6.2 Top Five Banned Patterns (Inline Quick Reference)
 
-| Element | Why It Is Slop | When It Is Allowed |
-|---|---|---|
-| Aggressive purple gradients | Generic "tech" formula across SaaS/AI/web3 | The brand itself uses it, or the task is satirical |
-| Emoji as icons | Looks like every bullet needed cheap decoration | The brand uses emoji, or the audience/context is deliberately playful |
-| Rounded cards + colored left border accent | Overused Material/Tailwind pattern from 2020-2024 | Explicit user request or brand spec |
-| SVG imagery of faces/scenes/objects | AI-drawn SVG people and objects look wrong | Almost never; use real images or honest placeholders |
-| CSS silhouettes / hand-drawn SVG product imagery | Produces generic tech animation with zero product recognition | Almost never; use official assets or AI generation from official reference |
-| Inter/Roboto/Arial/system as display type | Too generic for designed work | The brand spec requires it |
-| Cyber neon / dark blue `#0D1117` | Generic GitHub-dark clone | Developer tools whose brand truly uses this direction |
+The full table, "What To Do Instead" rules, and "Isolate Bad Examples" guidance live in `references/content-guidelines.md`. Always-banned defaults you should refuse without consulting the reference:
 
-The main exception is brand truth: if the brand spec uses a pattern, it is not slop; it is a signature.
+1. **Aggressive purple → pink → blue gradients** — generic tech smell, except when the brand uses it.
+2. **Rounded cards + colored left-border accent** — overused 2020-2024 SaaS pattern.
+3. **SVG-drawn faces, scenes, objects** — AI illustration tells; use real images or honest placeholders.
+4. **CSS silhouettes for product imagery** — zero product recognition; use official assets or AI generation from official reference.
+5. **Inter / Roboto / Arial / system as display type** — too generic for designed work; pair distinctive display + body.
 
-#### 6.3 What To Do Instead
-
-- Use `text-wrap: pretty`, CSS Grid, and advanced CSS details.
-- Use `oklch()` or spec-derived colors. Do not invent arbitrary colors.
-- Prefer AI-generated or real bitmap imagery for illustration; use HTML screenshots only for precise tables or UI.
-- For Chinese output, use Chinese quotation marks; for English output, keep typography intentional.
-- Execute one detail at 120% and the rest at 80%.
-
-#### 6.4 Isolate Bad Examples
-
-If the task itself demonstrates bad design or AI slop, isolate the bad sample in a clearly labeled container, such as a dashed border with "Bad example · do not do this". The page should not actually become slop.
-
-See `references/content-guidelines.md` for the full checklist.
+The main exception is brand truth: if the brand spec uses a pattern, it is not slop, it is a signature.
 
 ## Design Direction Advisor (Fallback Mode)
 
@@ -375,23 +207,9 @@ See `references/content-guidelines.md` for the full checklist.
 
 If uncertain, use the lightweight version: list three differentiated directions and let the user choose.
 
-### Full Flow: 8 Phases
+### Five-School Routing
 
-**Phase 1 · Understand The Need**
-Ask at most three questions about audience, core message, emotional tone, and output format. Skip if already clear.
-
-**Phase 2 · Consultant Restatement**
-Restate the essence, audience, scenario, and tone in 100-200 words. End with: "Based on this, I prepared three design directions."
-
-**Phase 3 · Recommend Three Design Philosophies**
-
-Each direction must include:
-
-- A designer or studio name, such as "Kenya Hara-style Eastern minimalism".
-- 50-100 words explaining why it fits.
-- 3-4 visual traits, 3-5 tone keywords, and optional representative works.
-
-The three directions must come from three different schools:
+Each recommended direction must come from a different school. Never recommend two from the same school.
 
 | School | Visual Character | Role |
 |---|---|---|
@@ -401,56 +219,7 @@ The three directions must come from three different schools:
 | Experimental Avant-garde (13-16) | Experimental, generative, high impact | Bold/innovative |
 | Eastern Philosophy (17-20) | Warm, poetic, reflective | Differentiated/unique |
 
-Never recommend two or more from the same school.
-
-See `references/design-styles.md` for the 20-style library and AI prompt templates.
-
-**Phase 4 · Show Prebuilt Showcase Gallery**
-
-After recommending directions, check `assets/showcases/INDEX.md` for a matching prebuilt sample:
-
-| Scenario | Directory |
-|---|---|
-| WeChat article cover | `assets/showcases/cover/` |
-| PPT data slide | `assets/showcases/ppt/` |
-| Vertical infographic | `assets/showcases/infographic/` |
-| Personal homepage / AI directory / AI writing / SaaS / developer docs | `assets/showcases/website-*/` |
-
-Suggested phrasing: "Before generating live demos, here is how these three styles look in similar scenarios →"
-
-**Phase 5 · Generate Three Visual Demos**
-
-Seeing beats describing. Generate one demo for each direction. If the current agent supports parallel subagents, run three in parallel; otherwise generate serially.
-
-- Use the user's real content/topic, not Lorem ipsum.
-- Save HTML to `_temp/design-demos/demo-[style].html`.
-- Screenshot with `npx playwright screenshot file:///path.html out.png --viewport-size=1200,900`.
-- Show all three screenshots together.
-
-| Best Path | Demo Method |
-|---|---|
-| HTML style | Build full HTML → screenshot |
-| AI-generated style | `nano-banana-pro` with style DNA + content description |
-| Hybrid style | HTML layout + AI illustration |
-
-**Phase 6 · User Choice**
-User chooses one, mixes parts, tweaks, or asks to restart at Phase 3.
-
-**Phase 7 · Generate AI Prompt**
-Use `[design philosophy constraints] + [content description] + [technical parameters]`.
-
-- Use concrete traits, colors, ratios, spatial distribution, and output specs.
-- Do not rely only on style names.
-- Avoid AI-slop patterns.
-
-**Phase 8 · Return To Main Flow**
-Once a direction is confirmed, continue with Core Philosophy + Junior Designer workflow.
-
-**Real asset priority for personal/product work**:
-
-1. Check the user's private memory path for `personal-asset-index.json` (Claude Code default: `~/.claude/memory/`; other agents use their own convention).
-2. On first use, copy `assets/personal-asset-index.example.json` to that private path and fill real data.
-3. If missing, ask the user. Do not invent personal data. Do not place real personal data inside the skill directory.
+The full 8-phase advisor flow (need-understanding, consultant restatement, three-philosophy proposal, prebuilt showcase gallery, three live demos, user choice, AI prompt generation, return-to-main-flow) lives in `references/design-direction-advisor.md`. The 20-style library and AI prompt templates live in `references/design-styles.md`. The personal-asset-index workflow for personal/product work also lives in `design-direction-advisor.md`.
 
 ## App / iOS Prototype Rules
 
@@ -511,32 +280,7 @@ Routing:
 - "flow", "user journey", "clickable", "walk through" → flow demo.
 - If uncertain, ask. Do not default to flow demo.
 
-Overview skeleton:
-
-```jsx
-<div style={{display: 'flex', gap: 32, flexWrap: 'wrap', padding: 48, alignItems: 'flex-start'}}>
-  {screens.map(s => (
-    <div key={s.id}>
-      <div style={{fontSize: 13, color: '#666', marginBottom: 8, fontStyle: 'italic'}}>{s.label}</div>
-      <IosFrame>
-        <ScreenComponent data={s} />
-      </IosFrame>
-    </div>
-  ))}
-</div>
-```
-
-Flow demo skeleton:
-
-```jsx
-function AppPhone({ initial = 'today' }) {
-  const [screen, setScreen] = React.useState(initial);
-  const [modal, setModal] = React.useState(null);
-  // Render ScreenComponent by screen and pass callbacks.
-}
-```
-
-Pass callback props such as `onEnter`, `onClose`, `onTabChange`, `onOpen`, and `onAnnotation`. Buttons, tabs, and cards need `cursor: pointer` plus hover feedback.
+For the Overview-grid and Flow-demo (`AppPhone` state-manager) JSX skeletons, see `references/starter-components.md`. Pass callback props such as `onEnter`, `onClose`, `onTabChange`, `onOpen`, and `onAnnotation`. Buttons, tabs, and cards need `cursor: pointer` plus hover feedback.
 
 ### 3. Run Real Click Tests Before Delivery
 
@@ -687,29 +431,19 @@ Read the architecture section in `references/slide-decks.md` before building; wr
 
 ## Starter Components
 
-Copy these starter components into generated projects:
+The skill ships starter components designed to be **read and inlined** into single-file HTML (no module system at runtime). Categories: deck shells (`deck_index.html`, `deck_stage.js`), variation canvas (`design_canvas.jsx`), animation engine (`animations.jsx`), device frames (`ios_frame.jsx`, `android_frame.jsx`, `macos_window.jsx`, `browser_window.jsx`), and export scripts (`export_deck_pdf.mjs`, `export_deck_stage_pdf.mjs`, `export_deck_pptx.mjs`, `html2pptx.js`).
 
-| File | When To Use | Provides |
-|---|---|---|
-| `deck_index.html` | Default base deliverable for slide decks | iframe stitching, keyboard navigation, scale, counter, print merge, isolated per-slide HTML |
-| `deck_stage.js` | Single-file slide decks ≤10 slides | web component with auto-scale, keyboard navigation, counter, localStorage, speaker notes |
-| `scripts/export_deck_pdf.mjs` | Multi-file HTML → PDF | Per-slide Playwright PDF + pdf-lib merge, vector searchable text |
-| `scripts/export_deck_stage_pdf.mjs` | Single-file deck-stage HTML → PDF | Handles Shadow DOM slot and absolute-positioning pitfalls |
-| `scripts/export_deck_pptx.mjs` | HTML → editable PPTX | Calls `html2pptx.js`; requires four hard constraints |
-| `scripts/html2pptx.js` | DOM → PPTX element translator | Converts computedStyle to PowerPoint objects |
-| `design_canvas.jsx` | Static variations | Labeled grid layout |
-| `animations.jsx` | Animation HTML | Stage + Sprite + useTime + Easing + interpolate |
-| `ios_frame.jsx` | iOS app mockup | iPhone bezel, status bar, rounded screen |
-| `android_frame.jsx` | Android app mockup | Device bezel |
-| `macos_window.jsx` | Desktop app mockup | Window chrome + traffic lights |
-| `browser_window.jsx` | Webpage shown in browser | URL bar + tab bar |
-
-Usage: read the asset file → inline it into the target HTML `<script>` tag → slot in the design.
+Full inventory + usage pattern (read → inline → slot) + App/iOS prototype skeletons (Overview grid, Flow demo `AppPhone` state manager): `references/starter-components.md`. Script prereqs and invocation: `scripts/README.md`.
 
 ## References Router
 
 | Task | Read |
 |---|---|
+| Core Asset Protocol execution detail | `references/asset-protocol.md` |
+| Design Direction Advisor 8-phase flow | `references/design-direction-advisor.md` + `references/design-styles.md` |
+| Starter components inventory + App-prototype skeletons | `references/starter-components.md` |
+| Animation watermark template | `references/watermark.md` |
+| Scripts (export pipeline, verify, html2pptx) | `scripts/README.md` |
 | Questions and direction-setting | `references/workflow.md` |
 | Anti-AI-slop, content standards, scale | `references/content-guidelines.md` |
 | React+Babel setup | `references/react-setup.md` |
@@ -731,15 +465,7 @@ Usage: read the asset file → inline it into the target HTML `<script>` tag →
 
 ## Cross-Agent Adaptation
 
-This skill is agent-agnostic: Claude Code, Codex, Cursor, Trae, OpenClaw, Hermes Agent, or any markdown-skill-compatible agent can use it.
-
-- No built-in fork-verifier agent: use `scripts/verify.py`.
-- No asset registration into a review pane: write files directly and let the user open them in their browser/IDE.
-- No Tweaks host `postMessage`: use the pure-frontend localStorage version in `references/tweaks-system.md`.
-- No `window.claude.complete` helper: use a reusable mock or let the user supply an API key; see `references/react-setup.md`.
-- No structured question UI: ask in markdown using templates from `references/workflow.md`.
-
-All skill paths are relative to this skill root (`references/xxx.md`, `assets/xxx.jsx`, `scripts/xxx.sh`). Do not rely on absolute paths.
+This skill is agent-agnostic (Claude Code, Codex, Cursor, Trae, OpenClaw, Hermes Agent, or any markdown-skill-compatible agent). It assumes no host-specific affordances: validation goes through `scripts/verify.py`, Tweaks use a pure-frontend localStorage approach (see `references/tweaks-system.md`), questions use markdown templates from `references/workflow.md`, and LLM calls inside HTML use the mock or BYO-key pattern in `references/react-setup.md`. All skill paths are relative to the skill root (`references/xxx.md`, `assets/xxx.jsx`, `scripts/xxx.sh`).
 
 ## Output Requirements
 
@@ -752,25 +478,7 @@ All skill paths are relative to this skill root (`references/xxx.md`, `assets/xx
 
 ## Skill Promotion Watermark (Animation Only)
 
-Only animation outputs (HTML animation → MP4 / GIF) should default to a small **Created by Huashu-Design** watermark. Do not add it to slides, infographics, prototypes, or webpages.
-
-- Required: HTML animation exported to MP4/GIF.
-- Not required: slides, infographics, app/web prototypes, article images.
-- For unofficial third-party brand tribute animations, prefix the watermark with `Unofficial ·` to avoid IP confusion.
-- If the user says "no watermark", remove it.
-
-Template:
-
-```jsx
-<div style={{
-  position: 'absolute', bottom: 24, right: 32,
-  fontSize: 11, color: 'rgba(0,0,0,0.4)',
-  letterSpacing: '0.15em', fontFamily: 'monospace',
-  pointerEvents: 'none', zIndex: 100,
-}}>
-  Created by Huashu-Design
-</div>
-```
+Animation outputs (HTML animation → MP4 / GIF) get a small **Created by Huashu-Design** watermark by default. Slides, infographics, prototypes, and webpages do not. For unofficial brand tributes, prefix with `Unofficial ·`. If the user says "no watermark", remove it. Template + special cases in `references/watermark.md`.
 
 ## Core Reminders
 

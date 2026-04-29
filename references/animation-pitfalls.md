@@ -4,6 +4,28 @@ The most common bugs when building animations, and how to avoid them. Every rule
 
 Read this before writing animation and you can save an iteration.
 
+## Contents
+
+- [1. Layered Layout — `position: relative` is a default obligation](#1-layered-layout----position-relative-is-a-default-obligation)
+- [2. Character Trap — do not depend on rare Unicode](#2-character-trap----do-not-depend-on-rare-unicode)
+- [3. Data-driven Grid/Flex Templates](#3-data-driven-gridflex-templates)
+- [4. Transition Gaps — scene switches must be continuous](#4-transition-gaps----scene-switches-must-be-continuous)
+- [5. Pure Render Principle — animation state should be seekable](#5-pure-render-principle----animation-state-should-be-seekable)
+- [6. Measuring before fonts load = wrong measurements](#6-measuring-before-fonts-load--wrong-measurements)
+- [7. Recording preparation — leave handles for video export](#7-recording-preparation----leave-handles-for-video-export)
+- [8. Batch export — tmp directories must include PID](#8-batch-export----tmp-directories-must-include-pid-to-avoid-parallel-conflicts)
+- [9. Progress bar / replay button appears in recording](#9-progress-bar--replay-button-appears-in-recording----chrome-elements-pollute-the-video)
+- [10. Animation repeats at the start of recording — warmup frames leaked](#10-animation-repeats-at-the-beginning-of-recording----warmup-frames-leaked)
+- [11. Do not draw "fake chrome" inside the frame](#11-do-not-draw-fake-chrome-inside-the-frame----decorative-player-ui-collides-with-real-chrome)
+- [12. Leading blank recording + offset start — `__ready` × tick × lastTick triple trap](#12-leading-blank-recording--offset-recording-start----the-__ready--tick--lasttick-triple-trap)
+- [13. Disable loop during recording — `window.__recording` signal](#13-disable-loop-during-recording----the-window__recording-signal)
+- [14. Default 60fps video uses frame duplication — minterpolate compatibility](#14-default-60fps-video-uses-frame-duplication----minterpolate-has-poor-compatibility)
+- [15. `file://` + external `.jsx` CORS trap — inline the engine for single-file delivery](#15-file--external-jsx-cors-trap----inline-the-engine-for-single-file-delivery)
+- [16. Cross-scene inverted context — do not hardcode colors for in-frame elements](#16-cross-scene-inverted-context----do-not-hardcode-colors-for-in-frame-elements)
+- [Quick Self-check Checklist (5 seconds before starting)](#quick-self-check-checklist-5-seconds-before-starting)
+
+---
+
 ## 1. Layered Layout -- `position: relative` Is a Default Obligation
 
 **Pitfall**: A `sentence-wrap` element contained 3 `bracket-layer` elements (`position: absolute`). `sentence-wrap` did not have `position: relative`, so the absolute brackets used `.canvas` as their coordinate system and drifted 200px below the bottom of the screen.

@@ -4,6 +4,15 @@
 
 ---
 
+## Contents
+
+- [Scoring Criteria Details](#scoring-criteria-details) — philosophy alignment, visual hierarchy, craft quality, functionality, originality (5 axes × 10 points)
+- [Scenario-Specific Critique Priorities](#scenario-specific-critique-priorities)
+- [Top 10 Common Design Issues](#top-10-common-design-issues) — AI tech cliché, weak hierarchy, too many colors, inconsistent spacing, insufficient whitespace, too many fonts, alignment drift, decoration over content, cyber neon, density mismatch
+- [Critique Output Template](#critique-output-template) — Strengths (Keep), Issues (Fix), Quick Wins
+
+---
+
 ## Scoring Criteria Details
 
 ### 1. Philosophy Alignment
