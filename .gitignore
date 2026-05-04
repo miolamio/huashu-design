@@ -1,5 +1,6 @@
 # macOS
 .DS_Store
+.development
 **/.DS_Store
 
 # Video render temp (render-video.js 产物)
